@@ -1,6 +1,6 @@
 const express=require("express");
 const app=express();
-const port=8040;
+const port=8020;
 const path=require("path");
 const ejsMate=require("ejs-mate");
 
@@ -32,3 +32,5 @@ app.get("/sign",(req,res)=>{
 app.listen(port,(req,res)=>{
     console.log(`server working on ${port}`);
 })
+
+module.exports=app;
