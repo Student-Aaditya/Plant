@@ -17,7 +17,7 @@ app.get("/plant",(req,res)=>{
     res.render("index.ejs");
 })
 
-app.get("/home",(req,res)=>{
+app.get("/",(req,res)=>{
     res.render("index.ejs");
 })
 
