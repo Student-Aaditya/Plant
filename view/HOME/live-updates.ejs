@@ -18,7 +18,53 @@
               <p>Loading weather data...</p>
             </div>
           </div>
-          
+
+<!-- Weather API addition -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const apiKey = "d0bb05d1f9378c9b356a38594a54f232";  // Replace with your OpenWeather API Key
+                const weatherInfo = document.getElementById("weather-info");
+        
+                function fetchWeather(lat, lon) {
+                    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+                    
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            weatherInfo.innerHTML = `
+                                <h3>${data.name}</h3>
+                                <p>${data.weather[0].description}</p>
+                                <p>Temperature: ${data.main.temp}°C</p>
+                                <p>Humidity: ${data.main.humidity}%</p>
+                                <p>Wind Speed: ${data.wind.speed} m/s</p>
+                            `;
+                        })
+                        .catch(error => {
+                            console.error("Error fetching weather data:", error);
+                            weatherInfo.innerHTML = "<p>Failed to load weather data.</p>";
+                        });
+                }
+        
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            position => fetchWeather(position.coords.latitude, position.coords.longitude),
+                            error => {
+                                console.error("Geolocation error:", error);
+                                weatherInfo.innerHTML = "<p>Location access denied. Unable to fetch weather data.</p>";
+                            }
+                        );
+                    } else {
+                        weatherInfo.innerHTML = "<p>Geolocation is not supported by this browser.</p>";
+                    }
+                }
+        
+                getLocation();
+            });
+        </script>
+    
+<!-- Weather API addition ends -->
+
           <div class="seed-selector-card">
             <h2>Select a Seed</h2>
             <div class="mb-3">
