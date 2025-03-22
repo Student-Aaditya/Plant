@@ -45,13 +45,20 @@ main().
         console.log(err);
     })
 
+app.get("/shop",(req,res)=>{
+    res.render("./HOME/shop.ejs");
+})
 
-app.get("/plant",(req,res)=>{
-    res.render("index.ejs");
+app.get("/live-update",(req,res)=>{
+    res.render("./HOME/live-updates.ejs");
+})
+
+app.get("/category",(req,res)=>{
+    res.render("./HOME/category.ejs");
 })
 
 app.get("/",(req,res)=>{
-    res.render("index.ejs");
+    res.render("./HOME/home.ejs");
 })
 
 app.get("/login",(req,res)=>{

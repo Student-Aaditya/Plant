@@ -1,32 +1,35 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top ">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="B.jpg" ></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+<header class="py-3 bg-white border-bottom sticky-top">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand fw-bold text-teal" href="/">
+          <i class="bi bi-leaf-fill me-2"></i>Greenica
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link " href="/">Home</a>
-                <a class="nav-link" href="/store">Store</a>
-                <a class="nav-link" href="/blog">Library</a>
-                <a class="nav-link " href="/contact" role="button">
-                  Contact us
-                </a>
-               
-
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/category">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shop">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/live-update">Live Updates</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center">
+            <div class="position-relative me-3">
+              <input type="text" class="form-control form-control-sm pe-4" placeholder="Search...">
+              <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted small"></i>
             </div>
-            <div class="navbar-log ms-auto"  >
-        
-    
-                  <a class="nav-link " href="/sign">Sign-Up</a>
-                  <a class="nav-link " href="/login">Log-In</a>
-            
-                  <!-- <a class="nav-link " href="/logout">Log-Out</a> -->
-        
-            </div>
-            
+            <a href="/login" class="btn btn-outline-teal btn-sm">Login</a>
+          </div>
+        </div>
+      </nav>
     </div>
-    
-</div>
-</nav>
+  </header>
