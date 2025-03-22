@@ -22,7 +22,7 @@
 <!-- Weather API addition -->
         <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const apiKey = "d0bb05d1f9378c9b356a38594a54f232";  // Replace with your OpenWeather API Key
+        const apiKey = "d0bb05d1f9378c9b356a38594a54f232"; 
         const weatherInfo = document.getElementById("weather-info");
 
         function fetchWeather(lat, lon) {
@@ -31,7 +31,6 @@
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    // Keep existing elements and only update weather content
                     const weatherHTML = `
                         <h3>${data.name}</h3>
                         <p>${data.weather[0].description}</p>
@@ -40,11 +39,9 @@
                         <p>Wind Speed: ${data.wind.speed} m/s</p>
                     `;
 
-                    // Update weather content without removing other elements
                     const weatherContainer = document.createElement("div");
                     weatherContainer.innerHTML = weatherHTML;
 
-                    // Remove loading spinner
                     weatherInfo.innerHTML = "";
                     weatherInfo.appendChild(weatherContainer);
                 })
