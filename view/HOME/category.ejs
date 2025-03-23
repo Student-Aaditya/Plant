@@ -4,36 +4,51 @@
   document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector(".form-control");
     const searchButton = document.querySelector(".btn-gold");
-    const seedCards = document.querySelectorAll(".hover-card");
-
-    if (!searchInput || !searchButton || seedCards.length === 0) {
-      console.error("One or more required elements are missing!");
-      return;
-    }
-
+    
     function filterSeeds() {
+      console.log("Filter function called!"); // Debugging Log
+
       const searchTerm = searchInput.value.toLowerCase().trim();
-      
+      const seedCards = document.querySelectorAll(".hover-card");
+
+      if (seedCards.length === 0) {
+        console.warn("No seed cards found!");
+        return;
+      }
+
       seedCards.forEach((card) => {
         const titleElement = card.querySelector(".card-title");
+        
         if (titleElement) {
           const title = titleElement.textContent.toLowerCase();
+          console.log("Checking card:", title); // Debugging Log
+
           if (title.includes(searchTerm)) {
             card.style.display = "block";
           } else {
             card.style.display = "none";
           }
+        } else {
+          console.warn("No .card-title found inside a card!");
         }
       });
     }
 
+    if (!searchInput || !searchButton) {
+      console.error("Search input or button not found!");
+      return;
+    }
+
     searchInput.addEventListener("input", filterSeeds);
     searchButton.addEventListener("click", function (event) {
-      event.preventDefault();
+      event.preventDefault(); 
       filterSeeds();
     });
+
+    console.log("Event listeners added!"); 
   });
 </script>
+
 
 
 
