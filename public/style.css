@@ -523,9 +523,6 @@ body {
     object-fit: cover; 
     border-radius: 8px;
 }
-#navbarNav {
-    display: block !important;
-}
 
   
   /* Responsive Adjustments */
