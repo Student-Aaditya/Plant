@@ -1,18 +1,20 @@
 <% layout("/INCLUDE/boilerplate")%> 
+
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector(".form-control");
     const searchButton = document.querySelector(".btn-gold");
     const resultsContainer = document.querySelector(".row-cols-2");
 
-    const API_KEY = "L5ykRRM7hlwaZwZtWeEyDRwZO2r-u0EOI_zA6BPI-gE"; // Your Trefle API key
-    const BASE_URL = "https://trefle.io/api/v1/plants/search";
+    const API_KEY = "sk-Cm2S67e00a713a17b9363";  // Your Perenual API key
+    const BASE_URL = "https://perenual.com/api/species-list";
 
     async function fetchPlants(query) {
         try {
-            const response = await fetch(`${BASE_URL}?token=${API_KEY}&q=${encodeURIComponent(query)}`);
+            const response = await fetch(`${BASE_URL}?key=${API_KEY}&q=${query.toLowerCase()}`);
             const data = await response.json();
 
-            if (!data || !data.data || data.data.length === 0) {
+            if (!data.data || data.data.length === 0) {
                 resultsContainer.innerHTML = `<p class="text-muted">No plants found. Try another search.</p>`;
             } else {
                 displayResults(data.data);
@@ -23,28 +25,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    async function fetchPlantDetails(plantId) {
-        try {
-            const response = await fetch(`https://trefle.io/api/v1/plants/${plantId}?token=${API_KEY}`);
-            const plantData = await response.json();
-            
-            return plantData.data.growth ? (plantData.data.growth.days_to_maturity || "N/A") : "N/A";
-        } catch (error) {
-            console.error("Error fetching plant details:", error);
-            return "N/A";
-        }
-    }
+    function displayResults(plants) {
+        resultsContainer.innerHTML = "";  // Clear previous results
 
-    async function displayResults(plants) {
-        resultsContainer.innerHTML = "";
-
-        for (const plant of plants) {
-            const imageUrl = plant.image_url || "https://via.placeholder.com/250";
+        plants.forEach(plant => {
+            const imageUrl = plant.default_image ? plant.default_image.original_url : "https://via.placeholder.com/250";
             const commonName = plant.common_name || "Unknown Plant";
             const scientificName = plant.scientific_name || "No scientific name available";
-            const family = plant.family || "N/A";
-
-            const growthPeriod = await fetchPlantDetails(plant.id);
+            const watering = plant.watering || "Not available";
+            const sunlight = plant.sunlight ? plant.sunlight.join(", ") : "Not specified";
 
             const plantCard = `
                 <div class="col-md-6">
@@ -57,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <div class="card-body">
                                     <h5 class="card-title text-teal">${commonName}</h5>
                                     <p class="card-text small text-muted">${scientificName}</p>
-                                    <p class="card-text"><small class="text-gold fw-medium">Family: ${family}</small></p>
-                                    <p class="card-text"><small class="text-gold fw-medium">Growth period: ${growthPeriod} days</small></p>
+                                    <p class="card-text"><small class="text-gold fw-medium">Watering: ${watering}</small></p>
+                                    <p class="card-text"><small class="text-gold fw-medium">Sunlight: ${sunlight}</small></p>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
             resultsContainer.innerHTML += plantCard;
-        }
+        });
     }
 
     searchButton.addEventListener("click", function () {
@@ -83,6 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+</script>
+
 
     <main class="flex-grow-1 bg-light">
       <div class="container py-5">
