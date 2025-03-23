@@ -1,6 +1,5 @@
 <% layout("/INCLUDE/boilerplate")%> 
 
-<script>
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector(".form-control");
     const searchButton = document.querySelector(".btn-gold");
@@ -30,24 +29,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch(`https://trefle.io/api/v1/plants/${plantId}?token=${API_KEY}`);
             const plantData = await response.json();
             
-            // Check for growth period info (if available)
             return plantData.data.growth ? (plantData.data.growth.days_to_maturity || "N/A") : "N/A";
         } catch (error) {
             console.error("Error fetching plant details:", error);
-            return "N/A"; // Default if growth data is missing
+            return "N/A";
         }
     }
 
     async function displayResults(plants) {
-        resultsContainer.innerHTML = ""; // Clear previous results
+        resultsContainer.innerHTML = "";
 
         for (const plant of plants) {
-            const imageUrl = plant.image_url || "https://via.placeholder.com/250"; // Default image if missing
+            const imageUrl = plant.image_url || "https://via.placeholder.com/250";
             const commonName = plant.common_name || "Unknown Plant";
             const scientificName = plant.scientific_name || "No scientific name available";
             const family = plant.family || "N/A";
 
-            // Fetch growth period details (if available)
             const growthPeriod = await fetchPlantDetails(plant.id);
 
             const plantCard = `
@@ -80,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Allow pressing "Enter" to search
     searchInput.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -88,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-</script>
+
 
 
 
