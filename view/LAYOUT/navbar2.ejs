@@ -64,8 +64,9 @@
 </head>
 <body>
 
+  <!-- Chatbot Box -->
   <div class="chatbox" id="chatbox" style="display:none;">
-    <h3 style="text-align: center;">Greenica Bot</h3>
+    <h3 style="text-align: center; color: #28a745;">Greenica Bot</h3>
     <div class="messages" id="messages"></div>
     <div class="input-area">
       <input type="text" id="userInput" placeholder="Ask me something..." />
@@ -73,12 +74,13 @@
     </div>
   </div>
 
+  <!-- Bot Logo -->
   <div class="bot-logo" id="botLogo">
     <span>G</span>
   </div>
 
   <script>
-    const apiKey = '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';
+    const apiKey = 'AIzaSyDH8o0Z6pl5Y3jaEg3X1Q9aNfVm_9LDdk0'; // Replace with your Gemini bot API key
 
     // Show/Hide the chatbox when the bot logo is clicked
     document.getElementById('botLogo').addEventListener('click', function() {
@@ -97,20 +99,20 @@
       // Clear the input field
       document.getElementById('userInput').value = '';
 
-      // Get bot's response
+      // Get bot response
       const botResponse = await getBotResponse(userInput);
 
-      // Append the bot's response to the chatbox
+      // Append the bot's message to the chatbox
       messagesDiv.innerHTML += `<p><strong>Greenica Bot:</strong> ${botResponse}</p>`;
 
-      // Scroll to the bottom
+      // Scroll to the bottom of the messages
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
     async function getBotResponse(userMessage) {
-      const apiUrl = 'https://api.openai.com/v1/chat/completions';
+      const apiUrl = 'https://api.example.com/v1/chat/completions'; // Replace with actual Gemini bot API URL
       const requestBody = {
-        model: 'gpt-4', // You can use gpt-3.5-turbo if you prefer
+        model: 'gpt-4', // Change model if necessary
         messages: [
           { role: 'system', content: 'You are a helpful assistant for plants, gardening, and agriculture.' },
           { role: 'user', content: userMessage }
@@ -134,11 +136,9 @@
         }
 
         const data = await response.json();
-        
-        // Return the bot's response content
         return data.choices[0].message.content;
       } catch (error) {
-        console.error('Error with OpenAI API request:', error);
+        console.error('Error with API request:', error);
         return "Sorry, I could not get a response. Please try again later.";
       }
     }
