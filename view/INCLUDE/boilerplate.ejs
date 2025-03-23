@@ -25,6 +25,22 @@
     <script src="script.js"></script>
 
 
+    <!-- Navbar Toggle Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var navbarToggler = document.querySelector(".navbar-toggler");
+            var navbarNav = document.querySelector("#navbarNav");
+
+            if (navbarToggler) {
+                navbarToggler.addEventListener("click", function () {
+                    navbarNav.classList.toggle("show");
+                });
+            }
+        });
+    </script>
+
+
+
     <!-- NAVBAR -->
      <%-include("../LAYOUT/navbar2.ejs")%>
     <!-- BODY -->
