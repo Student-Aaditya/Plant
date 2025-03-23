@@ -6,15 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.querySelector(".btn-gold");
     const resultsContainer = document.querySelector(".row-cols-2");
 
-    const API_KEY = "sk-Cm2S67e00a713a17b9363";  // Your Perenual API key
-    const BASE_URL = "https://perenual.com/api/species-list";
+    const API_KEY = "YOUR_API_KEY"; 
+    const BASE_URL = "https://trefle.io/api/v1/plants/search";
 
     async function fetchPlants(query) {
         try {
-            const response = await fetch(`${BASE_URL}?key=${API_KEY}&q=${query.toLowerCase()}`);
+            const response = await fetch(`${BASE_URL}?q=${encodeURIComponent(query)}&token=${API_KEY}`);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            
             const data = await response.json();
+            console.log("API Response:", data); // Debugging
 
-            if (!data.data || data.data.length === 0) {
+            if (data.data.length === 0) {
                 resultsContainer.innerHTML = `<p class="text-muted">No plants found. Try another search.</p>`;
             } else {
                 displayResults(data.data);
@@ -25,44 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function displayResults(plants) {
-        resultsContainer.innerHTML = "";  // Clear previous results
-
-        plants.forEach(plant => {
-            const imageUrl = plant.default_image ? plant.default_image.original_url : "https://via.placeholder.com/250";
-            const commonName = plant.common_name || "Unknown Plant";
-            const scientificName = plant.scientific_name || "No scientific name available";
-            const watering = plant.watering || "Not available";
-            const sunlight = plant.sunlight ? plant.sunlight.join(", ") : "Not specified";
-
-            const plantCard = `
-                <div class="col-md-6">
-                    <div class="card border-0 shadow-sm hover-card">
-                        <div class="row g-0">
-                            <div class="col-4">
-                                <img src="${imageUrl}" alt="${commonName}" class="img-fluid rounded">
-                            </div>
-                            <div class="col-8">
-                                <div class="card-body">
-                                    <h5 class="card-title text-teal">${commonName}</h5>
-                                    <p class="card-text small text-muted">${scientificName}</p>
-                                    <p class="card-text"><small class="text-gold fw-medium">Watering: ${watering}</small></p>
-                                    <p class="card-text"><small class="text-gold fw-medium">Sunlight: ${sunlight}</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            resultsContainer.innerHTML += plantCard;
-        });
-    }
-
     searchButton.addEventListener("click", function () {
         const query = searchInput.value.trim();
-        if (query) {
-            fetchPlants(query);
-        }
+        if (query) fetchPlants(query);
     });
 
     searchInput.addEventListener("keypress", function (event) {
@@ -72,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 </script>
 
 
