@@ -1,142 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Greenica Bot</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding-top: 60px; /* Offset for sticky navbar */
-    }
-    .chatbox {
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 10px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    .messages {
-      height: 300px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-      background-color: #ffffff;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    .input-area {
-      display: flex;
-    }
-    input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      margin-right: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #218838;
-    }
-    .bot-logo {
-      cursor: pointer;
-      padding: 10px;
-      background-color: #28a745;
-      color: white;
-      border-radius: 50%;
-      text-align: center;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-  </style>
-</head>
-<body>
-
-  <div class="chatbox" id="chatbox" style="display:none;">
-    <h3 style="text-align: center;">Greenica Bot</h3>
-    <div class="messages" id="messages"></div>
-    <div class="input-area">
-      <input type="text" id="userInput" placeholder="Ask me something..." />
-      <button onclick="sendMessage()">Send</button>
+<header class="py-3 bg-white border-bottom sticky-top">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand fw-bold text-teal" href="/">
+          <i class="bi bi-leaf-fill me-2"></i>Greenica
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/category">Seeds</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shop">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/live-update">Live Updates</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center flex-column flex-lg-row">
+            <div class="position-relative me-lg-3 mb-2 mb-lg-0 w-100">
+              <input type="text" class="form-control form-control-sm" placeholder="Search...">
+              <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted small"></i>
+            </div>
+            <a href="/login" class="btn btn-outline-teal btn-sm">Login</a>
+          </div>
+        </div>
+      </nav>
     </div>
-  </div>
-
-  <div class="bot-logo" id="botLogo">
-    <span>G</span>
-  </div>
-
-  <script>
-    const apiKey = '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';
-
-    // Show/Hide the chatbox when the bot logo is clicked
-    document.getElementById('botLogo').addEventListener('click', function() {
-      const chatbox = document.getElementById('chatbox');
-      chatbox.style.display = chatbox.style.display === 'none' ? 'block' : 'none';
-    });
-
-    async function sendMessage() {
-      const userInput = document.getElementById('userInput').value;
-      if (!userInput) return;
-
-      // Append the user's message to the chatbox
-      const messagesDiv = document.getElementById('messages');
-      messagesDiv.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
-
-      // Get the bot's response from OpenAI
-      const response = await getBotResponse(userInput);
-
-      // Append the bot's response to the chatbox
-      messagesDiv.innerHTML += `<p><strong>Greenica Bot:</strong> ${response}</p>`;
-
-      // Clear the input field
-      document.getElementById('userInput').value = '';
-
-      // Scroll to the bottom of the messages
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    async function getBotResponse(userMessage) {
-      const apiUrl = 'https://api.openai.com/v1/chat/completions';
-      const requestBody = {
-        model: 'gpt-3.5-turbo', // Or use "gpt-4" if you have access to GPT-4
-        messages: [
-          { role: 'system', content: 'You are a helpful assistant for plants, gardening, and agriculture.' },
-          { role: 'user', content: userMessage }
-        ]
-      };
-
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify(requestBody),
-        });
-
-        const data = await response.json();
-        
-        // Return the bot's response content
-        return data.choices[0].message.content;
-      } catch (error) {
-        console.error('Error with OpenAI API request:', error);
-        return "Sorry, I could not get a response. Please try again later.";
-      }
-    }
-  </script>
-
-</body>
-</html>
+  </header>
