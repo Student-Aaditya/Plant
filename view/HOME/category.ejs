@@ -1,5 +1,30 @@
 <% layout("/INCLUDE/boilerplate")%> 
 
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.querySelector(".form-control");
+    const searchButton = document.querySelector(".btn-gold");
+    const seedCards = document.querySelectorAll(".hover-card");
+
+    function filterSeeds() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      
+      seedCards.forEach((card) => {
+        const title = card.querySelector(".card-title").textContent.toLowerCase();
+        if (title.includes(searchTerm)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    searchInput.addEventListener("input", filterSeeds);
+    searchButton.addEventListener("click", filterSeeds);
+  });
+</script>
+
+
     <main class="flex-grow-1 bg-light">
       <div class="container py-5">
         <h1 class="display-5 fw-bold text-teal mb-2">Plant What You LOVE</h1>
