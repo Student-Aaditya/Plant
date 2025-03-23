@@ -1,35 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greenica</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+  <!-- Chatbot Style -->
+  <style>
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: none; /* Hidden by default */
+      flex-direction: column;
+    }
+    .chatbot-header {
+      background-color: #28a745;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px 10px 0 0;
+    }
+    .chatbot-body {
+      flex-grow: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    .chatbot-footer {
+      display: flex;
+      padding: 10px;
+    }
+    .chatbot-footer input {
+      flex-grow: 1;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .chatbot-footer button {
+      padding: 8px 12px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+    .message {
+      padding: 8px;
+      margin: 5px 0;
+    }
+    .user-message {
+      background-color: #e0ffe0;
+      border-radius: 5px;
+      text-align: right;
+    }
+    .bot-message {
+      background-color: #f1f1f1;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar (Keeping your original structure) -->
 <header class="py-3 bg-white border-bottom sticky-top">
-    <div class="container-fluid">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand fw-bold text-teal" href="/">
-          <i class="bi bi-leaf-fill me-2"></i>Greenica
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/category">Seeds</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/shop">Shop</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/live-update">Live Updates</a>
-            </li>
-          </ul>
-          <div class="d-flex align-items-center flex-column flex-lg-row">
-            <div class="position-relative me-lg-3 mb-2 mb-lg-0 w-100">
-              <input type="text" class="form-control form-control-sm" placeholder="Search...">
-              <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted small"></i>
-            </div>
-            <a href="/login" class="btn btn-outline-teal btn-sm">Login</a>
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand fw-bold text-teal" href="/">
+        <i class="bi bi-leaf-fill me-2"></i>Greenica
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/category">Seeds</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/live-update">Live Updates</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center flex-column flex-lg-row">
+          <div class="position-relative me-lg-3 mb-2 mb-lg-0 w-100">
+            <input type="text" class="form-control form-control-sm" placeholder="Search...">
+            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted small"></i>
           </div>
+          <a href="/login" class="btn btn-outline-teal btn-sm">Login</a>
         </div>
-      </nav>
-    </div>
-  </header>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Chatbot Container (Hidden by default) -->
+<div class="chatbot-container" id="chatbot">
+  <div class="chatbot-header">
+    <h5>PlantBot</h5>
+  </div>
+  <div class="chatbot-body" id="chatbot-body">
+    <!-- Messages will be appended here -->
+  </div>
+  <div class="chatbot-footer">
+    <input type="text" id="chat-input" placeholder="Ask me anything..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Your existing scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+
+<!-- Chatbot Script -->
+<script>
+  const chatbot = document.getElementById('chatbot');
+  const chatbotBody = document.getElementById('chatbot-body');
+  const chatInput = document.getElementById('chat-input');
+
+  // Open the chatbot
+  function openChatbot() {
+    chatbot.style.display = 'flex';
+  }
+
+  // Send a message to the chatbot
+  async function sendMessage() {
+    const message = chatInput.value.trim();
+    if (message) {
+      appendMessage(message, 'user');
+      chatInput.value = '';
+      await getBotResponse(message);
+    }
+  }
+
+  // Append messages to the chatbot body
+  function appendMessage(message, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+    messageDiv.textContent = message;
+    chatbotBody.appendChild(messageDiv);
+    chatbotBody.scrollTop = chatbotBody.scrollHeight;  // Scroll to the bottom
+  }
+
+  // Get response from the OpenAI API
+  async function getBotResponse(userMessage) {
+    const response = await fetch('https://api.openai.com/v1/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer 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`
+      },
+      body: JSON.stringify({
+        model: 'text-davinci-003',
+        prompt: `You are a helpful chatbot answering questions related to plants, gardening, and agriculture. User: ${userMessage}`,
+        max_tokens: 100,
+        temperature: 0.7,
+      }),
+    });
+    const data = await response.json();
+    const botMessage = data.choices[0].text.trim();
+    appendMessage(botMessage, 'bot');
+  }
+
+  // Open the chatbot automatically when the page loads
+  window.onload = () => openChatbot();
+</script>
+
+</body>
+</html>
