@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV != "Production") {
+    require("dotenv").config();
+}
+
+
 const express=require("express");
 const app=express();
 const port=8020;
@@ -9,6 +14,7 @@ const User=require("./Model/user.js");
 const passport=require("passport");
 const passportLocal=require("passport-local");
 const session=require("express-session");
+const Mongo = process.env.MONGO_URL;
 
 app.set("views",path.join(__dirname,"view"));
 app.set("view engine","ejs");
@@ -35,7 +41,8 @@ passport.deserializeUser(User.deserializeUser());
 
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/Plant");
+    // await mongoose.connect("mongodb://127.0.0.1:27017/Plant");
+    await mongoose.connect(Mongo);
 
 }
 main().
@@ -61,15 +68,6 @@ app.get("/",(req,res)=>{
     res.render("./HOME/home.ejs");
 })
 
-app.get("/login",(req,res)=>{
-    res.render("login.ejs");
-})
-
-app.post("/login", passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }), async (req, res) => {
-    console.log("login");
-    res.redirect("/");
-})
-
 app.get("/sign",(req,res)=>{
     res.render("sign-up.ejs");
 })
@@ -86,6 +84,17 @@ app.post("/sign",async (req,res)=>{
         res.redirect("/sign");
     }
 })
+
+app.get("/login",(req,res)=>{
+    res.render("login.ejs");
+})
+
+app.post("/login", passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }), async (req, res) => {
+    console.log("login");
+    res.redirect("/");
+})
+
+
 
 app.listen(port,(req,res)=>{
     console.log(`server working on ${port}`);

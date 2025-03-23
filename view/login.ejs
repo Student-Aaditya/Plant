@@ -8,13 +8,13 @@
                             <div class="card-body p-4 p-md-5">
                                 <h1 class="text-center mb-4 fw-bold text-teal">WELCOME!</h1>
 
-                                <form class="d-flex flex-column gap-3">
+                                <form class="d-flex flex-column gap-3" action="/login"  method="POST">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="username" placeholder="Username">
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
                                         <label for="username">Username</label>
                                     </div>
                                     <div class="form-floating">
-                                        <input type="password" class="form-control" id="password"
+                                        <input type="password" class="form-control" name="password" id="password"
                                             placeholder="Password">
                                         <label for="password">Password</label>
                                     </div>
@@ -22,7 +22,7 @@
                                         <a href="#" class="text-decoration-none text-muted small">Forgot Password?</a>
                                     </div>
                                     <div>
-                                        <a href="/" class="btn btn-gold w-100 py-2">LOGIN</a>
+                                        <button type="submit" class="btn btn-gold w-100 py-2">LOGIN</button>
                                     </div>
                                     <div class="text-center mt-2">
                                         <a href="/sign" class="text-decoration-none text-teal fw-medium">CREATE ACCOUNT</a>
