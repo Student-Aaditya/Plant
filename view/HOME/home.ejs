@@ -1,4 +1,16 @@
-<% layout("/INCLUDE/boilerplate")%>  
+<% layout("/INCLUDE/boilerplate")%> 
+    <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var triggerTabList = [].slice.call(document.querySelectorAll('#workTabs button'));
+    triggerTabList.forEach(function(tab) {
+      tab.addEventListener('click', function(event) {
+        event.preventDefault();
+        var tabElement = new bootstrap.Tab(tab);
+        tabElement.show();
+      });
+    });
+  });
+</script>
     <main class="flex-grow-1">
       <!-- Hero Section -->
       <section class="py-5 bg-light">
