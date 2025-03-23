@@ -1,5 +1,4 @@
 <% layout("/INCLUDE/boilerplate")%> 
-<script>
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector(".form-control");
     const searchButton = document.querySelector(".btn-gold");
@@ -10,10 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchPlants(query) {
         try {
-            const response = await fetch(`${BASE_URL}?q=${query}&token=${API_KEY}`);
+            const response = await fetch(`${BASE_URL}?token=${API_KEY}&q=${encodeURIComponent(query)}`);
             const data = await response.json();
 
-            if (data.data.length === 0) {
+            if (!data || !data.data || data.data.length === 0) {
                 resultsContainer.innerHTML = `<p class="text-muted">No plants found. Try another search.</p>`;
             } else {
                 displayResults(data.data);
@@ -84,9 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-
-</script>
 
     <main class="flex-grow-1 bg-light">
       <div class="container py-5">
