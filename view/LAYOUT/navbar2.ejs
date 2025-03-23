@@ -232,7 +232,7 @@
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer YOUR_API_KEY',
         },
         body: JSON.stringify({
           model: 'text-davinci-003',
@@ -241,9 +241,15 @@
           temperature: 0.7,
         }),
       });
+
+      // Check if response contains choices
       const data = await response.json();
-      const botMessage = data.choices[0].text.trim();
-      appendMessage(botMessage, 'bot');
+      if (data.choices && data.choices.length > 0) {
+        const botMessage = data.choices[0].text.trim();
+        appendMessage(botMessage, 'bot');
+      } else {
+        appendMessage('Sorry, I could not get a response. Please try again later.', 'bot');
+      }
     } catch (error) {
       console.error('Error:', error);
       appendMessage('Sorry, I could not get a response. Please try again later.', 'bot');
