@@ -1,28 +1,40 @@
 <% layout("/INCLUDE/boilerplate")%> 
 
-    <script>
+<script>
   document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector(".form-control");
     const searchButton = document.querySelector(".btn-gold");
     const seedCards = document.querySelectorAll(".hover-card");
 
+    if (!searchInput || !searchButton || seedCards.length === 0) {
+      console.error("One or more required elements are missing!");
+      return;
+    }
+
     function filterSeeds() {
       const searchTerm = searchInput.value.toLowerCase().trim();
       
       seedCards.forEach((card) => {
-        const title = card.querySelector(".card-title").textContent.toLowerCase();
-        if (title.includes(searchTerm)) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
+        const titleElement = card.querySelector(".card-title");
+        if (titleElement) {
+          const title = titleElement.textContent.toLowerCase();
+          if (title.includes(searchTerm)) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
         }
       });
     }
 
     searchInput.addEventListener("input", filterSeeds);
-    searchButton.addEventListener("click", filterSeeds);
+    searchButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      filterSeeds();
+    });
   });
 </script>
+
 
 
     <main class="flex-grow-1 bg-light">
